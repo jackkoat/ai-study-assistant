@@ -1,0 +1,85 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    font-family: 'Inter', sans-serif;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-primary-500 text-white px-lg py-sm rounded-md font-button transition-all duration-200 ease-out hover:bg-primary-700 active:scale-98;
+  }
+  
+  .btn-secondary {
+    @apply bg-neutral-100 text-neutral-900 px-lg py-sm rounded-md font-button transition-all duration-200 ease-out hover:bg-neutral-200 active:scale-98;
+  }
+  
+  .card {
+    @apply bg-bg-surface rounded-lg shadow-md p-md transition-all duration-250 ease-out hover:-translate-y-1 hover:shadow-lg;
+  }
+  
+  .sidebar-link {
+    @apply flex items-center gap-sm px-md py-sm rounded-md text-small text-neutral-600 transition-all duration-200 ease-out;
+  }
+  
+  .sidebar-link:hover {
+    @apply bg-neutral-100;
+  }
+  
+  .sidebar-link.active {
+    @apply bg-primary-100 text-primary-500 font-body-bold;
+  }
+}
+
+@layer utilities {
+  .scale-98 {
+    transform: scale(0.98);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Custom scrollbar for chat */
+.chat-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+
+.chat-scroll::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 3px;
+}
+
+.chat-scroll::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 3px;
+}
+
+.chat-scroll::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
