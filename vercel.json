@@ -1,1 +1,1 @@
-{"version": 2, "builds": [{"src": "standalone/**", "use": "@vercel/static"}, {"src": "nextjs/package.json", "use": "@vercel/next"}], "routes": [{"src": "/", "dest": "/standalone/"}, {"src": "/standalone/(.*)", "dest": "/standalone/$1"}, {"src": "/app/(.*)", "dest": "/nextjs/$1"}, {"src": "/nextjs/(.*)", "dest": "/nextjs/$1"}]}
+{"version": 2}

@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Study Assistant</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            100: '#E5F2FF',
+                            500: '#007AFF',
+                            700: '#0059B2',
+                        },
+                        neutral: {
+                            900: '#1A1D21',
+                            600: '#5C626C',
+                            200: '#EAEBEE',
+                            100: '#F8F9FA',
+                        },
+                        'bg-page': '#F3F4F6',
+                        'bg-surface': '#FFFFFF',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .chat-scroll::-webkit-scrollbar { width: 6px; }
+        .chat-scroll::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 3px; }
+        .chat-scroll::-webkit-scrollbar-thumb { background: #c1c1c1; border-radius: 3px; }
+        .chat-scroll::-webkit-scrollbar-thumb:hover { background: #a8a8a8; }
+    </style>
+</head>
+<body class="bg-bg-page">
+    <div class="flex h-screen">
+        <!-- Sidebar -->
+        <aside class="w-80 bg-bg-surface p-8 flex flex-col">
+            <!-- Logo -->
+            <div class="mb-16">
+                <h1 class="text-3xl text-neutral-900 font-bold">AI Study Assistant</h1>
+                <p class="text-sm text-neutral-600 mt-2">Your intelligent tutoring companion</p>
+            </div>
+
+            <!-- Navigation -->
+            <nav class="space-y-4">
+                <a href="#" class="flex items-center gap-4 px-4 py-3 rounded-lg bg-primary-100 text-primary-500 text-sm font-semibold">
+                    <span>📚</span>
+                    <span>Dashboard</span>
+                </a>
+                <a href="#" class="flex items-center gap-4 px-4 py-3 rounded-lg text-sm text-neutral-600 hover:bg-neutral-100 transition-colors">
+                    <span>💬</span>
+                    <span>Chat Sessions</span>
+                </a>
+                <a href="#" class="flex items-center gap-4 px-4 py-3 rounded-lg text-sm text-neutral-600 hover:bg-neutral-100 transition-colors">
+                    <span>📈</span>
+                    <span>Progress</span>
+                </a>
+                <a href="#" class="flex items-center gap-4 px-4 py-3 rounded-lg text-sm text-neutral-600 hover:bg-neutral-100 transition-colors">
+                    <span>👤</span>
+                    <span>Profile</span>
+                </a>
+            </nav>
+
+            <!-- User Profile -->
+            <div class="mt-auto pt-8 border-t border-neutral-200">
+                <div class="flex items-center gap-4">
+                    <div class="w-10 h-10 bg-primary-100 rounded-full flex items-center justify-center">
+                        <span class="text-primary-500">👤</span>
+                    </div>
+                    <div>
+                        <p class="text-sm font-semibold text-neutral-900">Student</p>
+                        <p class="text-sm text-neutral-600">Free Plan</p>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <div class="flex-1 overflow-hidden">
+            <!-- Dashboard View -->
+            <div id="dashboard" class="h-full flex flex-col">
+                <!-- Header -->
+                <div class="bg-bg-surface border-b border-neutral-200 px-12 py-12">
+                    <h1 class="text-5xl text-neutral-900 font-bold">Welcome back!</h1>
+                    <p class="text-base text-neutral-600 mt-2">Choose a subject to start your AI-powered study session</p>
+                </div>
+
+                <!-- Main Content -->
+                <div class="flex-1 overflow-y-auto p-12">
+                    <!-- Quick Stats -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+                        <div class="bg-bg-surface rounded-2xl shadow-lg p-6 transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-sm text-neutral-600">Sessions This Week</p>
+                                    <p class="text-3xl text-neutral-900 font-bold">12</p>
+                                </div>
+                                <div class="w-12 h-12 bg-primary-100 rounded-xl flex items-center justify-center">
+                                    <span class="text-2xl">📚</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-bg-surface rounded-2xl shadow-lg p-6 transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-sm text-neutral-600">Study Streak</p>
+                                    <p class="text-3xl text-neutral-900 font-bold">5 days</p>
+                                </div>
+                                <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
+                                    <span class="text-2xl">🔥</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-bg-surface rounded-2xl shadow-lg p-6 transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-sm text-neutral-600">Topics Mastered</p>
+                                    <p class="text-3xl text-neutral-900 font-bold">23</p>
+                                </div>
+                                <div class="w-12 h-12 bg-yellow-100 rounded-xl flex items-center justify-center">
+                                    <span class="text-2xl">🎯</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Subject Selection -->
+                    <div class="mb-8">
+                        <h2 class="text-3xl text-neutral-900 font-bold mb-8">Choose Your Subject</h2>
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                            <!-- Mathematics -->
+                            <button onclick="selectSubject('mathematics')" class="bg-bg-surface rounded-2xl shadow-lg p-6 text-left w-full transition-all duration-300 hover:shadow-xl hover:-translate-y-1 cursor-pointer">
+                                <div class="flex flex-col items-center text-center space-y-6">
+                                    <div class="w-16 h-16 bg-blue-500 rounded-2xl flex items-center justify-center">
+                                        <span class="text-2xl">📐</span>
+                                    </div>
+                                    <div class="w-full">
+                                        <h3 class="text-xl text-neutral-900 font-semibold mb-2">Mathematics</h3>
+                                        <p class="text-sm text-neutral-600">Algebra, Calculus, Statistics & More</p>
+                                    </div>
+                                </div>
+                            </button>
+
+                            <!-- Science -->
+                            <button onclick="selectSubject('science')" class="bg-bg-surface rounded-2xl shadow-lg p-6 text-left w-full transition-all duration-300 hover:shadow-xl hover:-translate-y-1 cursor-pointer">
+                                <div class="flex flex-col items-center text-center space-y-6">
+                                    <div class="w-16 h-16 bg-green-500 rounded-2xl flex items-center justify-center">
+                                        <span class="text-2xl">🔬</span>
+                                    </div>
+                                    <div class="w-full">
+                                        <h3 class="text-xl text-neutral-900 font-semibold mb-2">Science</h3>
+                                        <p class="text-sm text-neutral-600">Physics, Chemistry, Biology</p>
+                                    </div>
+                                </div>
+                            </button>
+
+                            <!-- Literature -->
+                            <button onclick="selectSubject('literature')" class="bg-bg-surface rounded-2xl shadow-lg p-6 text-left w-full transition-all duration-300 hover:shadow-xl hover:-translate-y-1 cursor-pointer">
+                                <div class="flex flex-col items-center text-center space-y-6">
+                                    <div class="w-16 h-16 bg-purple-500 rounded-2xl flex items-center justify-center">
+                                        <span class="text-2xl">📖</span>
+                                    </div>
+                                    <div class="w-full">
+                                        <h3 class="text-xl text-neutral-900 font-semibold mb-2">Literature</h3>
+                                        <p class="text-sm text-neutral-600">Reading, Writing, Analysis</p>
+                                    </div>
+                                </div>
+                            </button>
+
+                            <!-- History -->
+                            <button onclick="selectSubject('history')" class="bg-bg-surface rounded-2xl shadow-lg p-6 text-left w-full transition-all duration-300 hover:shadow-xl hover:-translate-y-1 cursor-pointer">
+                                <div class="flex flex-col items-center text-center space-y-6">
+                                    <div class="w-16 h-16 bg-yellow-500 rounded-2xl flex items-center justify-center">
+                                        <span class="text-2xl">🏛️</span>
+                                    </div>
+                                    <div class="w-full">
+                                        <h3 class="text-xl text-neutral-900 font-semibold mb-2">History</h3>
+                                        <p class="text-sm text-neutral-600">World History, Civics, Culture</p>
+                                    </div>
+                                </div>
+                            </button>
+
+                            <!-- Programming -->
+                            <button onclick="selectSubject('programming')" class="bg-bg-surface rounded-2xl shadow-lg p-6 text-left w-full transition-all duration-300 hover:shadow-xl hover:-translate-y-1 cursor-pointer">
+                                <div class="flex flex-col items-center text-center space-y-6">
+                                    <div class="w-16 h-16 bg-red-500 rounded-2xl flex items-center justify-center">
+                                        <span class="text-2xl">💻</span>
+                                    </div>
+                                    <div class="w-full">
+                                        <h3 class="text-xl text-neutral-900 font-semibold mb-2">Programming</h3>
+                                        <p class="text-sm text-neutral-600">Coding, Algorithms, Software Dev</p>
+                                    </div>
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Recent Activity -->
+                    <div>
+                        <h2 class="text-3xl text-neutral-900 font-bold mb-8">Recent Sessions</h2>
+                        <div class="space-y-4">
+                            <div class="bg-bg-surface rounded-2xl shadow-lg p-6">
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center gap-6">
+                                        <div class="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center">
+                                            <span class="text-lg">📐</span>
+                                        </div>
+                                        <div>
+                                            <p class="text-lg text-neutral-900 font-semibold">Calculus Integration</p>
+                                            <p class="text-sm text-neutral-600">2 hours ago • Mathematics</p>
+                                        </div>
+                                    </div>
+                                    <span class="text-neutral-400">→</span>
+                                </div>
+                            </div>
+
+                            <div class="bg-bg-surface rounded-2xl shadow-lg p-6">
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center gap-6">
+                                        <div class="w-10 h-10 bg-green-100 rounded-xl flex items-center justify-center">
+                                            <span class="text-lg">🔬</span>
+                                        </div>
+                                        <div>
+                                            <p class="text-lg text-neutral-900 font-semibold">Molecular Biology</p>
+                                            <p class="text-sm text-neutral-600">1 day ago • Science</p>
+                                        </div>
+                                    </div>
+                                    <span class="text-neutral-400">→</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chat View -->
+            <div id="chat" class="h-full hidden">
+                <!-- Chat Header -->
+                <div class="bg-bg-surface border-b border-neutral-200 px-12 py-8">
+                    <div class="flex items-center gap-4">
+                        <button onclick="showDashboard()" class="p-2 hover:bg-neutral-100 rounded-lg transition-colors">
+                            ←
+                        </button>
+                        <div class="flex items-center gap-4">
+                            <div id="subject-icon" class="w-10 h-10 bg-blue-500 rounded-lg flex items-center justify-center">
+                                <span class="text-white">📐</span>
+                            </div>
+                            <div>
+                                <h1 id="subject-title" class="text-xl text-neutral-900 font-semibold">Mathematics Assistant</h1>
+                                <p id="subject-desc" class="text-sm text-neutral-600">Ask me anything about algebra, calculus, statistics & more</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chat Messages -->
+                <div id="chat-messages" class="flex-1 overflow-y-auto p-12 chat-scroll">
+                    <div class="max-w-4xl mx-auto space-y-8">
+                        <div class="flex justify-start">
+                            <div class="max-w-2xl bg-primary-100 px-6 py-4 rounded-lg rounded-bl-none shadow-sm">
+                                <p class="text-base text-neutral-900 whitespace-pre-wrap">Hello! I'm your Mathematics tutor. What would you like to learn about today?</p>
+                                <p class="text-sm text-neutral-600 mt-2" id="current-time"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chat Input -->
+                <div class="bg-bg-surface border-t border-neutral-200 p-12">
+                    <div class="max-w-4xl mx-auto">
+                        <div class="flex gap-4">
+                            <div class="flex-1 relative">
+                                <textarea 
+                                    id="message-input" 
+                                    placeholder="Ask a question about Mathematics..." 
+                                    class="w-full px-6 py-4 pr-16 border border-neutral-200 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent text-base"
+                                    rows="1"
+                                    style="min-height: 56px; max-height: 120px;"
+                                    oninput="this.style.height='auto'; this.style.height=Math.min(this.scrollHeight, 120)+'px'"
+                                ></textarea>
+                            </div>
+                            <button 
+                                id="send-button" 
+                                onclick="sendMessage()" 
+                                class="px-6 py-4 bg-primary-500 text-white rounded-lg hover:bg-primary-700 transition-colors"
+                            >
+                                →
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Subject configurations
+        const subjects = {
+            mathematics: {
+                name: 'Mathematics',
+                description: 'algebra, calculus, statistics & more',
+                icon: '📐',
+                color: 'bg-blue-500',
+                demoResponses: [
+                    "Great question about mathematics! Let me walk you through this step by step. What specific area would you like to explore - algebra, calculus, geometry, or perhaps statistics?",
+                    "I love helping with math! Let's break this down. Start by identifying what type of problem it is, then apply the appropriate method. Show me your problem and I'll guide you through the solution process!",
+                    "Mathematics builds on itself, so it's important to understand the fundamentals first. Are you working on a specific concept, or would you like me to explain a particular mathematical principle?"
+                ]
+            },
+            science: {
+                name: 'Science',
+                description: 'physics, chemistry, biology',
+                icon: '🔬',
+                color: 'bg-green-500',
+                demoResponses: [
+                    "Science is all about understanding how the world works! Whether it's physics, chemistry, or biology, we can explore the underlying principles together. What specific scientific topic interests you?",
+                    "Let me help you understand this scientific concept! Science uses observation, experimentation, and analysis. What's the specific area you'd like to explore?",
+                    "Great scientific question! We can approach this by looking at the fundamental principles and then applying them to your specific question. What aspect would you like to start with?"
+                ]
+            },
+            literature: {
+                name: 'Literature',
+                description: 'reading, writing, analysis',
+                icon: '📖',
+                color: 'bg-purple-500',
+                demoResponses: [
+                    "Literature analysis is such an enriching experience! We can explore themes, character development, literary devices, and historical context together. What text or author would you like to discuss?",
+                    "I love diving into literature! Let's analyze this together by looking at the text more closely. What specific element catches your attention - plot, character, theme, or style?",
+                    "Literature offers endless opportunities for interpretation and analysis. What work are you studying, and what particular aspect would you like to explore?"
+                ]
+            },
+            history: {
+                name: 'History',
+                description: 'world history, civics, culture',
+                icon: '🏛️',
+                color: 'bg-yellow-500',
+                demoResponses: [
+                    "History is a story of human experiences! We can explore cause and effect, understand different perspectives, and connect past events to the present. What period or event interests you?",
+                    "Understanding history helps us make sense of the world today. Let's explore this historical topic together by examining the key events, people, and factors involved.",
+                    "History is full of fascinating stories and important lessons. What historical period or event would you like to explore in more detail?"
+                ]
+            },
+            programming: {
+                name: 'Programming',
+                description: 'coding, algorithms, software dev',
+                icon: '💻',
+                color: 'bg-red-500',
+                demoResponses: [
+                    "Programming is about solving problems systematically! Whether you're debugging code, learning new concepts, or building something new, I'm here to help. What programming challenge are you facing?",
+                    "Let's work through this programming problem together! The key is to break it down into smaller, manageable steps. What language are you using, and what specifically would you like help with?",
+                    "Programming is both an art and a science! We can explore algorithms, best practices, debugging strategies, and design patterns. What programming topic interests you most?"
+                ]
+            }
+        };
+
+        let currentSubject = null;
+
+        // Initialize current time
+        document.getElementById('current-time').textContent = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+        function selectSubject(subjectId) {
+            currentSubject = subjects[subjectId];
+            
+            // Update subject info
+            document.getElementById('subject-title').textContent = `${currentSubject.name} Assistant`;
+            document.getElementById('subject-desc').textContent = `Ask me anything about ${currentSubject.description}`;
+            document.getElementById('message-input').placeholder = `Ask a question about ${currentSubject.name}...`;
+            
+            // Update icon
+            const iconElement = document.getElementById('subject-icon');
+            iconElement.className = `w-10 h-10 ${currentSubject.color} rounded-lg flex items-center justify-center`;
+            iconElement.innerHTML = `<span class="text-white text-lg">${currentSubject.icon}</span>`;
+            
+            // Show chat view
+            document.getElementById('dashboard').classList.add('hidden');
+            document.getElementById('chat').classList.remove('hidden');
+            
+            // Clear previous messages except welcome
+            const messagesContainer = document.getElementById('chat-messages').querySelector('.max-w-4xl');
+            messagesContainer.innerHTML = `
+                <div class="flex justify-start">
+                    <div class="max-w-2xl bg-primary-100 px-6 py-4 rounded-lg rounded-bl-none shadow-sm">
+                        <p class="text-base text-neutral-900 whitespace-pre-wrap">Hello! I'm your ${currentSubject.name} tutor. What would you like to learn about today?</p>
+                        <p class="text-sm text-neutral-600 mt-2">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        function showDashboard() {
+            document.getElementById('chat').classList.add('hidden');
+            document.getElementById('dashboard').classList.remove('hidden');
+            currentSubject = null;
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('message-input');
+            const message = input.value.trim();
+            
+            if (!message || !currentSubject) return;
+            
+            // Add user message
+            addMessage(message, 'user');
+            input.value = '';
+            
+            // Show loading
+            showLoading();
+            
+            // Simulate AI response
+            setTimeout(() => {
+                hideLoading();
+                const responses = currentSubject.demoResponses;
+                const response = responses[Math.floor(Math.random() * responses.length)];
+                addMessage(response, 'ai');
+            }, 1000 + Math.random() * 2000);
+        }
+
+        function addMessage(content, type) {
+            const messagesContainer = document.getElementById('chat-messages').querySelector('.max-w-4xl');
+            const messageDiv = document.createElement('div');
+            
+            const isUser = type === 'user';
+            const timeString = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            
+            messageDiv.className = `flex ${isUser ? 'justify-end' : 'justify-start'}`;
+            messageDiv.innerHTML = `
+                <div class="max-w-2xl px-6 py-4 rounded-lg shadow-sm ${
+                    isUser 
+                        ? 'bg-bg-surface text-neutral-900 rounded-br-none' 
+                        : 'bg-primary-100 text-neutral-900 rounded-bl-none'
+                }">
+                    <p class="text-base text-neutral-900 whitespace-pre-wrap">${content}</p>
+                    <p class="text-sm text-neutral-600 mt-2">${timeString}</p>
+                </div>
+            `;
+            
+            messagesContainer.appendChild(messageDiv);
+            
+            // Scroll to bottom
+            const chatMessages = document.getElementById('chat-messages');
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function showLoading() {
+            const messagesContainer = document.getElementById('chat-messages').querySelector('.max-w-4xl');
+            const loadingDiv = document.createElement('div');
+            loadingDiv.id = 'loading-message';
+            loadingDiv.className = 'flex justify-start';
+            loadingDiv.innerHTML = `
+                <div class="bg-primary-100 px-6 py-4 rounded-lg rounded-bl-none shadow-sm">
+                    <div class="flex items-center gap-2">
+                        <div class="animate-spin w-4 h-4 border-2 border-primary-500 border-t-transparent rounded-full"></div>
+                        <span class="text-base text-neutral-900">Thinking...</span>
+                    </div>
+                </div>
+            `;
+            messagesContainer.appendChild(loadingDiv);
+            
+            const chatMessages = document.getElementById('chat-messages');
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function hideLoading() {
+            const loadingElement = document.getElementById('loading-message');
+            if (loadingElement) {
+                loadingElement.remove();
+            }
+        }
+
+        // Handle Enter key press
+        document.getElementById('message-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+    </script>
+</body>
+</html>
